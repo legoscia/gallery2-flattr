@@ -18,7 +18,6 @@ class FlattrCallbacks {
       $isPhoto = GalleryUtilities::isA($item, 'GalleryPhotoItem');
       $block =& $smarty->_tpl_vars['block'];
       if ($isPhoto) {
-        $block['flattr']['foobar'] = 'this is probably a photo';
         $urlGenerator  =& $gallery->getUrlGenerator();
         $url = $urlGenerator->generateUrl(
           array('itemId' => $itemId),
@@ -33,9 +32,6 @@ class FlattrCallbacks {
         }
         $block['flattr']['username'] = $username;
       }
-      else {
-        $block['flattr']['foobar'] = 'this is probably NOT a photo';
-      }        
       $block['flattr']['isPhoto'] = $isPhoto;
 
       return null;
