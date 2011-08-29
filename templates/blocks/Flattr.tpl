@@ -5,7 +5,7 @@
 <p>This is an individual item: {$key} → {$x}</p>
 {/foreach}
 
-{g->callback type="flattr.IsPhoto" itemId=$item.id}
+{g->callback type="flattr.GetPhoto" itemId=$item.id}
 
 {if $block.flattr.isPhoto}
 <p>This is a photo!</p>
@@ -14,7 +14,7 @@
 
 <a class="FlattrButton" style="display:none;"
     title="{$item.title}"
-    rev="flattr;uid:mhenoch;category:images;"
+    rev="flattr;uid:{$block.flattr.username};category:images;"
     href="{$block.flattr.url}">
 {$item.description}
 </a>

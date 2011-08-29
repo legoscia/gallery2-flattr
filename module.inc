@@ -39,25 +39,21 @@ class FlattrModule extends GalleryModule {
 	$this->setDescription($gallery->i18n('My Flattr module'));
 	$this->setVersion('1.0.0');
 	$this->_templateVersion = 1;
-	$this->setCallbacks('getItemLinks');
+	$this->setCallbacks('getSiteAdminViews');
 	$this->setGroup('other', $gallery->i18n('Other'));
 	$this->setRequiredCoreApi(array(7, 20));
 	$this->setRequiredModuleApi(array(3, 6));
     }
 
     /**
-     * @see GalleryModule::getItemLinks()
+     * @see GalleryModule::getSiteAdminViews()
      */
-    function getItemLinks($items, $wantsDetailedLinks, $permissions) {
-	$links = array();
-	foreach ($items as $item) {
-	    $params['view'] = 'flattr.Flattr';
-	    $params['itemId'] = $item->getId();
-	    $links[$item->getId()][] =
-		array('text' => $this->translate('Flattr'), 'params' => $params);
-	}
-
-	return array(null, $links);
+    function getSiteAdminViews() {
+      return array(
+        null,
+        array(
+          array('name' => $this->translate('Flattr configuration'),
+                'view' => 'flattr.Flattr')));
     }
 }
 ?>

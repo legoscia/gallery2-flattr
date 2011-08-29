@@ -9,7 +9,7 @@ class FlattrCallbacks {
     global $gallery;
 
     switch ($callback) {
-    case 'IsPhoto':
+    case 'GetPhoto':
       $itemId = $params['itemId'];
       list ($ret, $item) = GalleryCoreApi::loadEntitiesById($itemId, 'GalleryItem');
       if ($ret) {
@@ -26,11 +26,17 @@ class FlattrCallbacks {
                 'forceFullUrl' => true,
                 'forceSessionId' => false));
         $block['flattr']['url'] = $url;
+
+        list ($ret, $username) = GalleryCoreApi::getPluginParameter('module', 'flattr', 'username');
+        if ($ret) {
+          return array($ret, null);
+        }
+        $block['flattr']['username'] = $username;
       }
       else {
         $block['flattr']['foobar'] = 'this is probably NOT a photo';
       }        
-      $block['flattr']['isPhoto'] = '' . $isPhoto; /* !!$isPhoto; */
+      $block['flattr']['isPhoto'] = $isPhoto;
 
       return null;
     }

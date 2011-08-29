@@ -45,22 +45,15 @@ class FlattrController extends GalleryController {
 	$status = array();
 	$error = array();
 	if (isset($form['action']['save'])) {
-	    $ret = GalleryCoreApi::removeMapEntry('FlattrMap', array('itemId' => $itemId));
-	    if ($ret) {
-	        return array($ret, null);
-	    }
+          $ret = GalleryCoreApi::setPluginParameter('module', 'flattr', 'username', $form['flattrUsername']);
+          if ($ret) {
+            return array($ret, null);
+          }
 
-	    $ret = GalleryCoreApi::addMapEntry(
-                'FlattrMap',
-                array('itemId' => $itemId, 'itemValue' => $form['value']));
-	    if ($ret) {
-	        return array($ret, null);
-	    }
-
-	    /* Send the user to a confirmation page, for now */
-	    $redirect['view'] = 'flattr.Flattr';
-	    $redirect['itemId'] = (int)$itemId;
-	    $status['added'] = 1;
+          /* I'd like to redirect to the view I came from... Is there a neater way to do that? */
+          $redirect['view'] = 'core.SiteAdmin';
+          $redirect['subView'] = 'flattr.Flattr';
+          $status['added'] = 1;
 	}
 
 	$results['status'] = $status;
@@ -84,19 +77,13 @@ class FlattrView extends GalleryView {
      * @see GalleryView::loadTemplate
      */
     function loadTemplate(&$template, &$form) {
-	/* Load our item */
-	list ($ret, $item) = $this->getItem();
-	if ($ret) {
-	    return array($ret, null);
-	}
-
+	/* Load current username */
 	$Flattr = array();
-	$Flattr['item'] = (array)$item;
-	GalleryCoreApi::requireOnce('modules/flattr/classes/FlattrHelper.class');
-	list ($ret, $Flattr['value']) = FlattrHelper::getItemValue($item->getId());
-	if ($ret) {
-	    return array($ret, null);
-	}
+        list ($ret, $username) = GalleryCoreApi::getPluginParameter('module', 'flattr', 'username');
+        if ($ret) {
+          return array($ret, null);
+        }
+	$Flattr['username'] = $username;
 
 	$template->setVariable('Flattr', $Flattr);
 
