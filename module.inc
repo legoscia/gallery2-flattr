@@ -1,7 +1,7 @@
 <?php
 /*
- * Gallery - a web based photo album viewer and editor
- * Copyright (C) 2000-2008 Bharat Mediratta
+ * Flattr Gallery2 plugin
+ * Copyright (C) 2010 Erlang Solutions Ltd
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,16 +17,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 /**
  * @package Flattr
  * @version $Revision$
- * @author Magnus Henoch
+ * @author Magnus Henoch <magnus.henoch@gmail.com>
  */
 
 /**
  * Flattr
  *
- * Describe your new module here!
+ * Flattr is a micropayment system.  This module adds a Flattr button to each photo.
  *
  * @package Flattr
  */

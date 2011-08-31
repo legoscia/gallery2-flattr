@@ -1,7 +1,7 @@
 <?php
 /*
- * Gallery - a web based photo album viewer and editor
- * Copyright (C) 2000-2008 Bharat Mediratta
+ * Flattr Gallery2 plugin
+ * Copyright (C) 2011 Erlang Solutions Ltd
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  * @version $Revision$
  * @package Flattr
  * @subpackage UserInterface
- * @author Magnus Henoch
+ * @author Magnus Henoch <magnus.henoch@gmail.com>
  */
 
 /**
