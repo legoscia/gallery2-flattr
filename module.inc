@@ -38,9 +38,9 @@ class FlattrModule extends GalleryModule {
 	$this->setId('flattr');
 	$this->setName($gallery->i18n('Flattr'));
 	$this->setDescription($gallery->i18n('My Flattr module'));
-	$this->setVersion('1.0.0');
+	$this->setVersion('1.0.1');
 	$this->_templateVersion = 1;
-	$this->setCallbacks('getSiteAdminViews');
+	$this->setCallbacks('getSiteAdminViews|getItemSummaries');
 	$this->setGroup('other', $gallery->i18n('Other'));
 	$this->setRequiredCoreApi(array(7, 20));
 	$this->setRequiredModuleApi(array(3, 6));
@@ -55,6 +55,47 @@ class FlattrModule extends GalleryModule {
         array(
           array('name' => $this->translate('Flattr configuration'),
                 'view' => 'flattr.Flattr')));
+    }
+
+    /**
+     * @see GalleryModule::getItemSummaries
+     */
+    function getItemSummaries($items, $permissions, &$template) {
+      global $gallery;
+
+      list ($ret, $username) = GalleryCoreApi::getPluginParameter('module', 'flattr', 'username');
+      if ($ret) {
+        return array($ret, null);
+      }
+      /* No username - no point in creating buttons */
+      if (!$username) {
+        return array(null, array());
+      }
+
+      $summaries = array();
+      foreach ($items as $item) {
+        if (GalleryUtilities::isA($item, 'GalleryPhotoItem')) {
+          $itemId = $item->getId();
+          $urlGenerator  =& $gallery->getUrlGenerator();
+          $url = $urlGenerator->generateUrl(
+            array('itemId' => $itemId),
+            array('htmlEntities' => true,
+                  'forceFullUrl' => true,
+                  'forceSessionId' => false));
+
+          $template->setVariable('FlattrTitle', $item->getTitle());
+          $template->setVariable('FlattrUsername', $username);
+          $template->setVariable('FlattrUrl', $url);
+          $template->setVariable('FlattrDescription', $item->getDescription());
+          $template->setVariable('FlattrCompact', true);
+          list ($ret, $summaries[$itemId]) =
+            $template->fetch('gallery:modules/flattr/templates/FlattrButton.tpl');
+          if ($ret) {
+            return array($ret, null);
+          }
+        }
+      }
+      return array(null, $summaries);
     }
 }
 ?>
